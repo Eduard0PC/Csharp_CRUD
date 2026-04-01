@@ -1,0 +1,86 @@
+<Window xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="clr-namespace:tema5_2.Models"
+    x:Class="tema5_2.view.VerProfeWindow"
+    Width="800" Height="400"
+    Title="Lista de Maestros">
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBox Grid.Row="0"
+            Name="txtBuscar"
+            Watermark="Buscar maestro..."
+            TextChanged="Buscar"
+            Margin="0,0,0,10" />
+
+        <DataGrid x:Name="dataGridMaestros"
+            Grid.Row="1"
+            x:DataType="models:Profesor"
+            AutoGenerateColumns="False"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            MinHeight="250"
+            Foreground="White">
+
+            <DataGrid.Styles>
+                <Style Selector="DataGridColumnHeader">
+                    <Setter Property="Foreground" Value="White" />
+                </Style>
+            </DataGrid.Styles>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID_Profe}" />
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" />
+                <DataGridTextColumn Header="Apellido" Binding="{Binding Apellido}" />
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
+                <DataGridTemplateColumn Header="Materia">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="models:Profesor">
+                            <TextBlock Text="{Binding Nombre_Materia}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate x:DataType="models:Profesor">
+                            <ComboBox
+                                ItemsSource="{ReflectionBinding Materias, RelativeSource={RelativeSource AncestorType=Window}}"
+                                SelectedValue="{Binding ID_Materia}"
+                                SelectedValueBinding="{Binding ID_Materia, x:DataType=models:Materia}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Materia">
+                                        <TextBlock Text="{Binding Nombre_Materia}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            Spacing="20"
+            Margin="0,10,0,0">
+
+            <Button Content="Agregar Maestro"
+                Click="Agregar_Click" />
+
+            <Button Content="Eliminar seleccionado"
+                Click="Eliminar_Click" />
+
+            <Button Content="Guardar cambios"
+                Click="GuardarCambios_Click" />
+
+        </StackPanel>
+
+    </Grid>
+
+</Window>

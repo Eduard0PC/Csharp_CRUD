@@ -1,0 +1,52 @@
+<Window xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="tema5_2.view.MainWindow"
+    Width="900" Height="600"
+    Title="CRUD Materias - Profesores">
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="30">
+
+        <TextBlock Text="TEMA 5.2. CRUD MATERIAS - PROFESORES"
+            FontSize="28"
+            FontWeight="Bold"
+            HorizontalAlignment="Center" />
+
+        <TextBlock Text="Eduardo Poot"
+            FontSize="14"
+            HorizontalAlignment="Center" />
+
+        <StackPanel Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            Spacing="60"
+            Margin="0,40,0,0">
+
+            <Button Content="Ver Materias"
+                Click="VerMaterias"
+                Width="250"
+                Height="80"
+                FontSize="18"
+                Background="Transparent"
+                BorderBrush="White"
+                BorderThickness="1"
+                CornerRadius="5"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center" />
+
+            <Button Content="Ver Maestros"
+                Click="VerMaestros"
+                Width="250"
+                Height="80"
+                FontSize="18"
+                Background="Transparent"
+                BorderBrush="White"
+                BorderThickness="1"
+                CornerRadius="5"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center" />
+
+
+        </StackPanel>
+
+    </StackPanel>
+
+</Window>
