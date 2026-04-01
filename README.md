@@ -26,9 +26,9 @@ TrustServerCertificate=True;
 ```
 
 > [!IMPORTANT]
-> SQL Server is running
-> The database `tema5_3` exists
-> Credentials are correct
+> * SQL Server is running
+> * The database `tema5_3` exists
+> * Credentials are correct
 
 ---
 
