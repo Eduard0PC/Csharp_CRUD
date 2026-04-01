@@ -1,6 +1,6 @@
 using tema5_2.Models;
 using System;
-using MySql.Data.MySqlClient;
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 
 namespace tema5_2.controller;
@@ -26,24 +26,23 @@ public class ProfesorController
                 LEFT JOIN Materias m ON p.ID_Materia = m.ID_Materia
             ";
 
-                var cmd = new MySqlCommand(query, conn);
+                var cmd = new SqlCommand(query, conn);
                 var reader = cmd.ExecuteReader();
 
-                while (reader.Read())
-                {
+                while (reader.Read()){
                     lista.Add(new Profesor
                     {
-                        ID_Profe = reader.GetString("ID_Profe"),
-                        Nombre = reader.GetString("Nombre"),
-                        Apellido = reader.GetString("Apellido"),
-                        Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? "" : reader.GetString("Email"),
-                        ID_Materia = reader.IsDBNull(reader.GetOrdinal("ID_Materia")) ? "" : reader.GetString("ID_Materia"),
-                        Nombre_Materia = reader.IsDBNull(reader.GetOrdinal("Nombre_Materia")) ? "" : reader.GetString("Nombre_Materia")
+                        ID_Profe = reader["ID_Profe"].ToString(),
+                        Nombre = reader["Nombre"].ToString(),
+                        Apellido = reader["Apellido"].ToString(),
+                        Email = reader["Email"] == DBNull.Value ? "" : reader["Email"].ToString(),
+                        ID_Materia = reader["ID_Materia"] == DBNull.Value ? "" : reader["ID_Materia"].ToString(),
+                        Nombre_Materia = reader["Nombre_Materia"] == DBNull.Value ? "" : reader["Nombre_Materia"].ToString()
                     });
                 }
             }
         }
-        catch (MySqlException ex)
+        catch (SqlException ex)
         {
             Console.Error.WriteLine($"Error obteniendo profesores: {ex.Message}");
             return lista;
@@ -66,7 +65,7 @@ public class ProfesorController
                 (ID_Profe, Nombre, Apellido, Email, ID_Materia)
                 VALUES (@id, @nom, @ape, @mail, @mat)";
 
-                var cmd = new MySqlCommand(query, conn);
+                var cmd = new SqlCommand(query, conn);
 
                 cmd.Parameters.AddWithValue("@id", profesor.ID_Profe);
                 cmd.Parameters.AddWithValue("@nom", profesor.Nombre);
@@ -77,7 +76,7 @@ public class ProfesorController
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
-        catch (MySqlException ex)
+        catch (SqlException ex)
         {
             Console.Error.WriteLine($"Error insertando profesor: {ex.Message}");
             return false;
@@ -93,13 +92,13 @@ public class ProfesorController
 
                 string query = "DELETE FROM Profesores WHERE ID_Profe = @id";
 
-                var cmd = new MySqlCommand(query, conn);
+                var cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id", id);
 
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
-        catch (MySqlException ex)
+        catch (SqlException ex)
         {
             Console.Error.WriteLine($"Error eliminando profesor: {ex.Message}");
             return false;
@@ -122,7 +121,7 @@ public class ProfesorController
                     ID_Materia = @mat
                 WHERE ID_Profe = @id";
 
-                var cmd = new MySqlCommand(query, conn);
+                var cmd = new SqlCommand(query, conn);
 
                 cmd.Parameters.AddWithValue("@id", profesor.ID_Profe);
                 cmd.Parameters.AddWithValue("@nom", profesor.Nombre);
@@ -133,7 +132,7 @@ public class ProfesorController
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
-        catch (MySqlException ex)
+        catch (SqlException ex)
         {
             Console.Error.WriteLine($"Error actualizando profesor: {ex.Message}");
             return false;

@@ -1,5 +1,6 @@
 using tema5_2.Models;
-using MySql.Data.MySqlClient;
+using System;
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 
 namespace tema5_2.controller;
@@ -17,16 +18,16 @@ public class MateriaController
             conn.Open();
 
             string query = "SELECT * FROM Materias";
-            var cmd = new MySqlCommand(query, conn);
+            var cmd = new SqlCommand(query, conn);
             var reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {
                 lista.Add(new Materia
                 {
-                    ID_Materia = reader.GetString("ID_Materia"),
-                    Nombre_Materia = reader.GetString("Nombre_Materia"),
-                    Creditos = reader.GetInt32("Creditos")
+                    ID_Materia = reader["ID_Materia"].ToString(),
+                    Nombre_Materia = reader["Nombre_Materia"].ToString(),
+                    Creditos = reader["Creditos"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Creditos"])
                 });
             }
         }
@@ -46,7 +47,7 @@ public class MateriaController
                 (ID_Materia, Nombre_Materia, Creditos)
                 VALUES (@id, @nom, @cred)";
 
-                var cmd = new MySqlCommand(query, conn);
+                var cmd = new SqlCommand(query, conn);
 
                 cmd.Parameters.AddWithValue("@id", materia.ID_Materia);
                 cmd.Parameters.AddWithValue("@nom", materia.Nombre_Materia);
@@ -72,7 +73,7 @@ public class MateriaController
 
                 string query = "DELETE FROM Materias WHERE ID_Materia = @id";
 
-                var cmd = new MySqlCommand(query, conn);
+                var cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id", id);
 
                 return cmd.ExecuteNonQuery() > 0;
@@ -99,7 +100,7 @@ public class MateriaController
                     Creditos = @cred
                 WHERE ID_Materia = @id";
 
-                var cmd = new MySqlCommand(query, conn);
+                var cmd = new SqlCommand(query, conn);
 
                 cmd.Parameters.AddWithValue("@id", materia.ID_Materia);
                 cmd.Parameters.AddWithValue("@nom", materia.Nombre_Materia);

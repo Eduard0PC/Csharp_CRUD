@@ -1,14 +1,14 @@
 using System;
-using MySql.Data.MySqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace tema5_2;
 
 public class Database
 {
-    private string connectionString = "server=localhost;database=tema2_6;user=eduardo;password=108310";
+    private string connectionString = "Server=localhost;Database=tema5_3;User Id=sa;Password=Eduardo_123!;TrustServerCertificate=True;";
 
-    public MySqlConnection GetConnection()
+    public SqlConnection GetConnection()
     {
-        return new MySqlConnection(connectionString);
+        return new SqlConnection(connectionString);
     }
 }
