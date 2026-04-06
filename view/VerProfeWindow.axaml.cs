@@ -56,19 +56,17 @@ public partial class VerProfeWindow : Window
     }
     private async void GuardarCambios_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        var lista = dataGridMaestros.ItemsSource as List<Profesor>;
+        var listaLocal = dataGridMaestros.ItemsSource as List<Profesor>;
 
-        if (lista == null)
-            return;
+        if (listaLocal == null) return;
 
         var controller = new ProfesorController();
 
-        foreach (var profesor in lista)
-        {
-            controller.ActualizarProfesor(profesor);
-        }
+        int actualizados = listaLocal.Count(p => controller.ActualizarProfesor(p));
+        int errores = listaLocal.Count - actualizados;
+
+        await MostrarMensaje($"Cambios guardados. Actualizados: {actualizados}, Errores: {errores}");
         CargarDatos();
-        await MostrarMensaje("Cambios guardados correctamente");
     }
 
     private async Task MostrarMensaje(string mensaje)

@@ -75,15 +75,10 @@ public partial class VerMateriaWindow : Window
 
     private async void GuardarCambios_Click(object sender, RoutedEventArgs e)
     {
-        int actualizados = 0;
-        int errores = 0;
+        if (todasLasMaterias == null) return;
 
-        foreach (var materia in todasLasMaterias)
-        {
-            bool resultado = materiaController.ActualizarMateria(materia);
-            if (resultado) actualizados++;
-            else errores++;
-        }
+        int actualizados = todasLasMaterias.Count(m => materiaController.ActualizarMateria(m));
+        int errores = todasLasMaterias.Count - actualizados;
 
         await MostrarMensaje($"Cambios guardados. Actualizados: {actualizados}, Errores: {errores}");
         CargarMaterias();
