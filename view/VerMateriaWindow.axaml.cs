@@ -77,6 +77,22 @@ public partial class VerMateriaWindow : Window
     {
         if (todasLasMaterias == null) return;
 
+        foreach (var m in todasLasMaterias)
+        {
+            if (string.IsNullOrWhiteSpace(m.ID_Materia) || 
+                string.IsNullOrWhiteSpace(m.Nombre_Materia))
+            {
+                await MostrarMensaje("Todos los campos son obligatorios en las materias");
+                return;
+            }
+
+            if (m.Creditos <= 0)
+            {
+                await MostrarMensaje($"Los créditos de la materia '{m.Nombre_Materia}' deben ser mayores a 0");
+                return;
+            }
+        }
+
         int actualizados = todasLasMaterias.Count(m => materiaController.ActualizarMateria(m));
         int errores = todasLasMaterias.Count - actualizados;
 

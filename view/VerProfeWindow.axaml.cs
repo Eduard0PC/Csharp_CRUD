@@ -60,6 +60,30 @@ public partial class VerProfeWindow : Window
 
         if (listaLocal == null) return;
 
+        foreach (var p in listaLocal)
+        {
+            if (string.IsNullOrWhiteSpace(p.ID_Profe) || 
+                string.IsNullOrWhiteSpace(p.Nombre) || 
+                string.IsNullOrWhiteSpace(p.Apellido) || 
+                string.IsNullOrWhiteSpace(p.Email))
+            {
+                await MostrarMensaje("Todos los campos son obligatorios en los maestros");
+                return;
+            }
+
+            if (!p.Email.Contains("@") || !p.Email.Contains("."))
+            {
+                await MostrarMensaje($"El correo electrónico de {p.Nombre} no es válido");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(p.ID_Materia))
+            {
+                await MostrarMensaje($"Debe asignar una materia al maestro {p.Nombre}");
+                return;
+            }
+        }
+
         var controller = new ProfesorController();
 
         int actualizados = listaLocal.Count(p => controller.ActualizarProfesor(p));

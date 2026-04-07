@@ -25,9 +25,9 @@ public partial class AddMateriaWindow : Window
             return;
         }
 
-        if (!int.TryParse(txtCreditos.Text, out int creditos))
+        if (!int.TryParse(txtCreditos.Text, out int creditos) || creditos <= 0)
         {
-            await MostrarMensaje("Los créditos deben ser un número entero");
+            await MostrarMensaje("Los créditos deben ser un número entero mayor a 0");
             return;
         }
 

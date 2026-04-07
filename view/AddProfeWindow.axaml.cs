@@ -33,6 +33,21 @@ public partial class AddProfeWindow : Window
             return;
         }
 
+        if (string.IsNullOrWhiteSpace(txtId.Text) || 
+            string.IsNullOrWhiteSpace(txtNombre.Text) || 
+            string.IsNullOrWhiteSpace(txtApellido.Text) || 
+            string.IsNullOrWhiteSpace(txtEmail.Text))
+        {
+            await MostrarMensaje("Todos los campos son obligatorios");
+            return;
+        }
+
+        if (!txtEmail.Text.Contains("@") || !txtEmail.Text.Contains("."))
+        {
+            await MostrarMensaje("Ingresa un correo electrónico válido");
+            return;
+        }
+
         var profesor = new Profesor
         {
             ID_Profe = txtId.Text ?? "",
